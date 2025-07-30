@@ -3,6 +3,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
+import { RecipeService } from './recipe.service';
 
 @Component({
   selector: 'app-root',
@@ -12,29 +14,29 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatToolbarModule,
     MatCardModule,
     BrowserAnimationsModule,
+    HttpClientModule,
+    SearchComponent,
   ],
-  template: `
-    <mat-toolbar color="primary">
-      <span>Recipe Finder</span>
-    </mat-toolbar>
-
-    <div class="container">
-      <mat-card>
-        <mat-card-header>
-          <mat-card-title>Welcome to Recipe Finder</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <p>Find the best recipes for your meals!</p>
-        </mat-card-content>
-      </mat-card>
-    </div>
-  `,
-  styles: [
-    `
-      .container {
-        padding: 20px;
-      }
-    `,
-  ],
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {}
+export class AppComponent {
+  recipes: any[] = [];
+  isLoading: boolean = false;
+
+  constructor(private recipeService: RecipeService) {}
+
+  onSearch(query: string) {
+    this.isLoading = true;
+    this.recipeService.getRecipes(query).subscribe(
+      (data) => {
+        this.recipes = data.results;
+        this.isLoading = false;
+      },
+      (error) => {
+        console.error(error);
+        this.isLoading = false;
+      }
+    );
+  }
+}

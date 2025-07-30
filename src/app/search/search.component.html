@@ -1,0 +1,5 @@
+<mat-form-field appearance="fill">
+  <mat-label>Search for a recipe</mat-label>
+  <input matInput [(ngModel)]="query" placeholder="Enter recipe name" />
+</mat-form-field>
+<button mat-raised-button color="primary" (click)="onSearch()">Search</button>

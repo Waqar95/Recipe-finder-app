@@ -1,0 +1,10 @@
+.recipe-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.recipe-card {
+  width: 300px;
+  margin: 10px;
+}
