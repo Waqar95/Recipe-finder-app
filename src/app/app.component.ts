@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
+import { RecipeService } from './recipe.service';
+import { SearchComponent } from './search/search.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
-import { RecipeService } from './recipe.service';
 
 @Component({
   selector: 'app-root',
@@ -26,16 +27,17 @@ export class AppComponent {
 
   constructor(private recipeService: RecipeService) {}
 
+  // This method handles the search query and fetches recipes from the RecipeService
   onSearch(query: string) {
-    this.isLoading = true;
+    this.isLoading = true; // Show loading spinner or text while fetching data
     this.recipeService.getRecipes(query).subscribe(
       (data) => {
-        this.recipes = data.results;
-        this.isLoading = false;
+        this.recipes = data.results; // Store fetched recipes in the recipes array
+        this.isLoading = false; // Hide loading after the data is fetched
       },
       (error) => {
-        console.error(error);
-        this.isLoading = false;
+        console.error('Error fetching recipes:', error);
+        this.isLoading = false; // Hide loading on error
       }
     );
   }
